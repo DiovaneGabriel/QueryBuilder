@@ -1,0 +1,18 @@
+{
+    "name": "diovanegabriel/query-builder",
+    "description": "A simple class for create sqlqueries",
+    "type": "library",
+    "keywords": ["query", "sql", "data"],
+    "license": "MIT",
+    "version": "v1.0.0",
+    "authors": [
+        {
+            "name": "Diovane Barbieri Gabriel"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Random\\": "src/QueryBuilder"
+        }
+    }
+}
