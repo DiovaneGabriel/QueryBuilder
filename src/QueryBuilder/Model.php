@@ -222,7 +222,11 @@ class Model
 
         $this->flush();
 
-        return $result;
+        if(is_array($result) && count($result) === 0){
+            return false;
+        }else{
+            return $result;
+        }
     }
 
     protected function executeSql($sql)
