@@ -1,8 +1,8 @@
 <?php
 
-require_once "src/QueryBuilder/Model.php";
+use DBarbieri\QueryBuilder\Model;
 
-use QueryBuilder\Model;
+require __DIR__ . '/../vendor/autoload.php';
 
 $model = Model::getModel(Model::SGBD_SQLSERVER, 'user', 'password', 'database', 'host', 1433);
 

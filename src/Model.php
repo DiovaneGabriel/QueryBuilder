@@ -1,11 +1,10 @@
 <?php
 
-namespace QueryBuilder;
+namespace DBarbieri\QueryBuilder;
 
-require_once 'ModelSQLServer.php';
-require_once 'ModelPostgreSQL.php';
-
+use Exception;
 use PDO;
+use PDOException;
 
 class Model
 {

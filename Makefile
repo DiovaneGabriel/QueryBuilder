@@ -1,13 +1,15 @@
 .PHONY: test
 
+CONTAINER_PHP = query-builder-php-test
+
 test:
 	clear && \
-	docker exec php-test php ./test/test.php
+	docker exec ${CONTAINER_PHP} php ./test/test.php
 
 install:
 	clear && \
 	docker compose up -d && \
-	docker exec -it php-test sh -c "cd /var/www/html && composer update"
+	docker exec -it ${CONTAINER_PHP} sh -c "cd /var/www/html && composer update"
 
 up:
 	docker compose up -d

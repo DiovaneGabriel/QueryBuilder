@@ -1,10 +1,7 @@
 <?php
 
-namespace QueryBuilder;
+namespace DBarbieri\QueryBuilder;
 
-require_once 'Model.php';
-
-use QueryBuilder\Model;
 use PDO;
 
 class ModelSQLServer extends Model
