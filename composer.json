@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["query", "sql", "data"],
     "license": "MIT",
-    "version": "v1.1.0",
+    "version": "v1.2.0",
     "authors": [
         {
             "name": "Diovane Barbieri Gabriel"
@@ -12,7 +12,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "DBarbieri\\QueryBuilder\\": "src"
+            "DBarbieri\\QueryBuilder\\": "src",
+            "DBarbieri\\QueryBuilder\\Values\\": "src\\values"
         }
     }
 }

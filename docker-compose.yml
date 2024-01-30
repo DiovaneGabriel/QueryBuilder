@@ -7,4 +7,10 @@ services:
     command: php -S 0.0.0.0:8080 -t /var/www/html
     volumes:
       - ./:/var/www/html
-    network_mode: "host"
+    # network_mode: "host"
+    networks:
+      - custom_network
+
+networks:
+  custom_network:
+    external: true

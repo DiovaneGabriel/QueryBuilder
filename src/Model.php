@@ -2,6 +2,7 @@
 
 namespace DBarbieri\QueryBuilder;
 
+use DBarbieri\QueryBuilder\Values\Literal;
 use Exception;
 use PDO;
 use PDOException;
@@ -126,6 +127,31 @@ class Model
         return true;
     }
 
+    public function insertBatch($table, $data)
+    {
+
+        $fullSql = "DO $$\nBEGIN\n";
+        foreach ($data as $row) {
+            $this->table = $table;
+            $this->columns = array_keys($row);
+
+            $this->createBinds($row);
+
+            $sql = "INSERT INTO " . $this->table . " (" . implode(',', $this->columns) . ") VALUES (" . implode(",", array_keys($this->binds)) . ");";
+            $fullSql .= $this->replaceBinds($sql) . "\n";
+
+            $this->flush();
+        }
+
+        $fullSql .= "END $$;";
+
+        $this->executeSql($fullSql);
+
+        $this->flush();
+
+        return true;
+    }
+
     public function getSequenceNextVal($sequenceName)
     {
         return mt_rand(1, 1000000000);
@@ -172,7 +198,11 @@ class Model
                     $value = 0;
                 }
 
-                $this->statement->bindValue($key, $value);
+                if ($value instanceof Literal) {
+                    $this->statement->bindValue($key, $value->getValue());
+                } else {
+                    $this->statement->bindValue($key, $value);
+                }
             }
         }
     }
@@ -187,7 +217,7 @@ class Model
 
     protected function createBinds(array $data)
     {
-        $binds = false;
+        $binds = [];
         foreach ($data as $key => $value) {
             $binds[$this->createBind($key, $value)] = $value;
         }
@@ -221,11 +251,31 @@ class Model
 
         $this->flush();
 
-        if(is_array($result) && count($result) === 0){
+        if (is_array($result) && count($result) === 0) {
             return false;
-        }else{
+        } else {
             return $result;
         }
+    }
+
+    protected function replaceBinds($sql)
+    {
+        if ($this->binds) {
+            foreach ($this->binds as $key => $value) {
+                if ($value === false) {
+                    $value = "false";
+                } elseif ($value === null) {
+                    $value = "null";
+                } elseif ($value instanceof Literal) {
+                    $value = $value->getValue();
+                } else {
+                    $value = "'" . addslashes($value) . "'";
+                }
+                $sql = str_replace($key, $value, $sql);
+            }
+        }
+
+        return $sql;
     }
 
     protected function executeSql($sql)
