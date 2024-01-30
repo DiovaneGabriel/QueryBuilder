@@ -23,7 +23,8 @@ $rows = [
     "renda" => 0,
     "tipo_operacao" => 2,
     "valor" => 23.41,
-    "valor_esperado" => 23.41
+    "valor_esperado" => 23.41,
+    "nome_contraparte" => "Diego Felipe D'ávila Sobrinho"
 ];
 
 $model->insertBatch('proc_operacao_realizada', [$rows]);

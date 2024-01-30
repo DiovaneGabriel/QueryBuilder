@@ -269,7 +269,7 @@ class Model
                 } elseif ($value instanceof Literal) {
                     $value = $value->getValue();
                 } else {
-                    $value = "'" . addslashes($value) . "'";
+                    $value = "'" . str_replace("'", "''", $value) . "'";
                 }
                 $sql = str_replace($key, $value, $sql);
             }
