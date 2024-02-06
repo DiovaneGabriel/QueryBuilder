@@ -4,7 +4,7 @@ use DBarbieri\QueryBuilder\Model;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$model = Model::getModel(Model::SGBD_POSTGRE, 'aml', 'Aml@passw0rd', 'aml', 'postgres', 5432);
+$model = Model::getModel(Model::SGBD_SQLSERVER, 'sa', 'Aml@passw0rd', 'master', 'sqlserver', 1433);
 
 $rows = [
     "cep" => "74414035",

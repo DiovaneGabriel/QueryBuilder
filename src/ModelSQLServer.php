@@ -27,7 +27,7 @@ class ModelSQLServer extends Model
             $result = $model->getRow();
             return $result->nextval;
         } else {
-            return new Literal("(" . $model->getCompiledSelect() . ")");
+            return new Literal("(next value for " . $sequenceName.")");
         }
     }
 

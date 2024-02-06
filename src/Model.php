@@ -130,7 +130,7 @@ class Model
     public function insertBatch($table, $data)
     {
 
-        $fullSql = "DO $$\nBEGIN\n";
+        $fullSql = "";
         foreach ($data as $row) {
             $this->table = $table;
             $this->columns = array_keys($row);
@@ -143,7 +143,9 @@ class Model
             $this->flush();
         }
 
-        $fullSql .= "END $$;";
+        if ($this instanceof ModelPostgreSQL) {
+            $fullSql = "DO $$\nBEGIN\n" . $fullSql . "END $$;";
+        }
 
         $this->executeSql($fullSql);
 
@@ -263,7 +265,17 @@ class Model
         if ($this->binds) {
             foreach ($this->binds as $key => $value) {
                 if ($value === false) {
-                    $value = "false";
+                    if ($this instanceof ModelSQLServer) {
+                        $value = "0";
+                    } else {
+                        $value = "false";
+                    }
+                } elseif ($value === true) {
+                    if ($this instanceof ModelSQLServer) {
+                        $value = "1";
+                    } else {
+                        $value = "true";
+                    }
                 } elseif ($value === null) {
                     $value = "null";
                 } elseif ($value instanceof Literal) {
