@@ -131,7 +131,7 @@ class Model
     {
 
         $fullSql = "";
-        foreach ($data as $row) {
+        foreach ($data as $i => $row) {
             $this->table = $table;
             $this->columns = array_keys($row);
 
@@ -139,6 +139,10 @@ class Model
 
             $sql = "INSERT INTO " . $this->table . " (" . implode(',', $this->columns) . ") VALUES (" . implode(",", array_keys($this->binds)) . ");";
             $fullSql .= $this->replaceBinds($sql) . "\n";
+
+            if ($this instanceof ModelSQLServer && $i < count($data) - 1) {
+                $fullSql .= "GO\n";
+            }
 
             $this->flush();
         }
