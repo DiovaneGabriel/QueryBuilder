@@ -140,9 +140,9 @@ class Model
             $sql = "INSERT INTO " . $this->table . " (" . implode(',', $this->columns) . ") VALUES (" . implode(",", array_keys($this->binds)) . ");";
             $fullSql .= $this->replaceBinds($sql) . "\n";
 
-            if ($this instanceof ModelSQLServer && $i < count($data) - 1) {
-                $fullSql .= "GO\n";
-            }
+            // if ($this instanceof ModelSQLServer && $i < count($data) - 1) {
+            //     $fullSql .= "GO\n";
+            // }
 
             $this->flush();
         }
