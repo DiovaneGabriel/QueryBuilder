@@ -25,6 +25,7 @@ class Model
     protected $conditions;
     protected $statement;
     protected $table;
+    protected $joins;
     protected $limitRows;
 
     public function __construct($connection)
@@ -86,6 +87,18 @@ class Model
         } else {
             $this->from([$table]);
         }
+
+        return $this;
+    }
+
+    public function join($table, $condition, $join = 'INNER')
+    {
+        $this->joins = $this->joins ? $this->joins : [];
+        $this->joins[] = [
+            "join" => $join,
+            "table" => $table,
+            "condition" => $condition
+        ];
 
         return $this;
     }
@@ -323,6 +336,12 @@ class Model
             $sql .= ' FROM ' . implode(',', $this->table);
         }
 
+        if ($this->joins) {
+            foreach ($this->joins as $join) {
+                $sql .= ' ' . $join['join'] . ' JOIN ' . $join['table'] . ' ON ' . $join['condition'];
+            }
+        }
+
         $sql .= $this->getCompiledConditions();
 
         if ($this instanceof ModelPostgreSQL && $this->limitRows) {
@@ -370,6 +389,7 @@ class Model
         $this->conditions = null;
         $this->statement = null;
         $this->table = null;
+        $this->joins = null;
         $this->limitRows = null;
     }
 }
