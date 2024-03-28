@@ -4,9 +4,9 @@ use DBarbieri\QueryBuilder\Model;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$model = Model::getModel(Model::SGBD_SQLSERVER, 'sa', 'Aml@passw0rd', 'master', 'sqlserver', 1433);
+$model = Model::getModel(Model::SGBD_MYSQL, 'root', 'P@ssw0rd', 'kto', 'mariadb-kto', 3306);
 
-$rows = [
+/*$rows = [
     "cep" => "74414035",
     "codigo" => "MOCK8181706634339957153MF45",
     "complemento" => NULL,
@@ -27,11 +27,11 @@ $rows = [
     "nome_contraparte" => "Diego Felipe D'ávila Sobrinho"
 ];
 
-$model->insertBatch('proc_operacao_realizada', [$rows]);
+$model->insertBatch('proc_operacao_realizada', [$rows]);*/
 
-// $row = $model
-//     ->select("'x'")
-//     ->getRow();
+$row = $model
+    ->select("'x'")
+    ->getRow();
 
 echo '<pre>';
 var_dump($row);

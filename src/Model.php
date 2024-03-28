@@ -12,6 +12,7 @@ class Model
 
     public const SGBD_POSTGRE = 'postgre';
     public const SGBD_SQLSERVER = 'sqlserver';
+    public const SGBD_MYSQL = 'mysql';
 
     protected const ARRAY = 'array';
     protected const OBJECT = 'object';
@@ -39,6 +40,8 @@ class Model
             $model = new ModelSQLServer(false, $user, $password, $database, $host, $port);
         } elseif ($sgbd == self::SGBD_POSTGRE) {
             $model = new ModelPostgreSQL(false, $user, $password, $database, $host, $port);
+        } elseif ($sgbd == self::SGBD_MYSQL) {
+            $model = new ModelMySQL(false, $user, $password, $database, $host, $port);
         }
 
         return $model;
