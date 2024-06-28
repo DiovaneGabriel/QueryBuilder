@@ -28,6 +28,7 @@ class Model
     protected $table;
     protected $joins;
     protected $limitRows;
+    protected $groupByColumns;
 
     public function __construct($connection)
     {
@@ -115,6 +116,20 @@ class Model
         }
 
         $this->conditions[] = $condition;
+
+        return $this;
+    }
+
+    public function groupBy($columns)
+    {
+        if (!is_array($columns)) {
+            $this->groupBy([$columns]);
+        } elseif (count($columns) > 0) {
+            if (!is_array($this->groupByColumns)) {
+                $this->groupByColumns = [];
+            }
+            $this->groupByColumns = array_merge($this->groupByColumns, $columns);
+        }
 
         return $this;
     }
@@ -347,6 +362,10 @@ class Model
 
         $sql .= $this->getCompiledConditions();
 
+        if ($this->groupByColumns) {
+            $sql .= " GROUP BY " . implode(',', $this->groupByColumns);
+        }
+
         if ($this instanceof ModelPostgreSQL && $this->limitRows) {
             $sql .= " LIMIT " . $this->limitRows . " ";
         }
@@ -394,5 +413,6 @@ class Model
         $this->table = null;
         $this->joins = null;
         $this->limitRows = null;
+        $this->groupByColumns = null;
     }
 }
