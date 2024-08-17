@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["query", "sql", "data"],
     "license": "MIT",
-    "version": "v1.7.0",
+    "version": "v1.7.1",
     "authors": [
         {
             "name": "Diovane Barbieri Gabriel"

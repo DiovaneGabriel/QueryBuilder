@@ -419,14 +419,14 @@ class Model
     public function getNSequenceValues(string $sequenceName, int $howMuchValues)
     {
         $model = new static($this->connection);
-        $startValue = $model->getSequenceNextVal($sequenceName);
-        $endValue = $startValue + $howMuchValues;
+        // $startValue = $model->getSequenceNextVal($sequenceName);
+        // $endValue = $startValue + $howMuchValues;
 
-        $model->executeSql("ALTER SEQUENCE " . $sequenceName . " RESTART WITH " . $endValue);
+        // $model->executeSql("ALTER SEQUENCE " . $sequenceName . " RESTART WITH " . $endValue);
 
         $values = [];
-        for ($i = $startValue; $i < $endValue; $i++) {
-            $values[] = $i;
+        for ($i = 0; $i < $howMuchValues; $i++) {
+            $values[] = $model->getSequenceNextVal($sequenceName);
         }
 
         return $values;
