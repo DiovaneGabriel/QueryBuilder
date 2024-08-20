@@ -416,17 +416,24 @@ class Model
         $this->groupByColumns = null;
     }
 
-    public function getNSequenceValues(string $sequenceName, int $howMuchValues)
+    public function getNSequenceValues(string $sequenceName, int $howMuchValues, bool $restartSequence = true)
     {
         $model = new static($this->connection);
-        // $startValue = $model->getSequenceNextVal($sequenceName);
-        // $endValue = $startValue + $howMuchValues;
-
-        // $model->executeSql("ALTER SEQUENCE " . $sequenceName . " RESTART WITH " . $endValue);
-
         $values = [];
+
+        if ($restartSequence) {
+            $startValue = $model->getSequenceNextVal($sequenceName);
+            $endValue = $startValue + $howMuchValues;
+
+            $model->executeSql("ALTER SEQUENCE " . $sequenceName . " RESTART WITH " . $endValue);
+        }
+        
         for ($i = 0; $i < $howMuchValues; $i++) {
-            $values[] = $model->getSequenceNextVal($sequenceName);
+            if ($restartSequence) {
+                $values[] = $startValue + $i;
+            } else {
+                $values[] = $model->getSequenceNextVal($sequenceName);
+            }
         }
 
         return $values;
