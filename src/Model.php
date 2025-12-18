@@ -325,7 +325,7 @@ class Model
         return $sql;
     }
 
-    protected function executeSql($sql)
+    public function executeSql($sql)
     {
         try {
             $this->statement = $this->connection->prepare($sql);
