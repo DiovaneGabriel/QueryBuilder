@@ -127,7 +127,7 @@ class Model
 
             $binds = $this->createBinds($values);
 
-            $condition = $field . " in ('" . implode("','", $binds) . "')";
+            $condition = $field . " in (" . implode(",", $binds) . ")";
 
             $this->conditions[] = $condition;
         }
