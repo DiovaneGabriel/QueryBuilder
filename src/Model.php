@@ -128,6 +128,7 @@ class Model
             $binds = $this->createBinds($values);
 
             $condition = $field . " in (" . implode(",", $binds) . ")";
+            $condition = $field . " IN (" . implode(",", array_keys($binds)) . ")";
 
             $this->conditions[] = $condition;
         }
