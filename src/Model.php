@@ -120,12 +120,14 @@ class Model
         return $this;
     }
 
-    public function whereIn($field, array $value)
+    public function whereIn($field, array $values)
     {
 
-        if (count($value) > 0) {
+        if (count($values) > 0) {
 
-            $condition = $field . ' in ' . $this->createBind($field, "('" . implode("','", $value) . "')");
+            $binds = $this->createBinds($values);
+
+            $condition = $field . " in ('" . implode("','", $binds) . "')";
 
             $this->conditions[] = $condition;
         }
