@@ -174,6 +174,29 @@ class Model
         return true;
     }
 
+    public function update($table, $data)
+    {
+        $this->columns = array_keys($data);
+
+        $this->table = $table;
+
+        $sql = "UPDATE " . $this->table . " SET ";
+
+        $sep = "";
+        foreach ($this->columns as $column) {
+            $sql .= $sep . $column . ' = ' . $this->createBind($column, $data[$column]);
+            $sep = ', ';
+        }
+
+        $sql .= $this->getCompiledConditions().";";
+
+        $this->executeSql($sql);
+
+        $this->flush();
+
+        return true;
+    }
+
     public function insertBatch($table, $data)
     {
 
