@@ -120,6 +120,19 @@ class Model
         return $this;
     }
 
+    public function whereIn($field, array $value)
+    {
+
+        if (count($value) > 0) {
+
+            $condition = $field . ' in ' . $this->createBind($field, "('" . implode("','", $value) . "')");
+
+            $this->conditions[] = $condition;
+        }
+
+        return $this;
+    }
+
     public function groupBy($columns)
     {
         if (!is_array($columns)) {
@@ -427,7 +440,7 @@ class Model
 
             $model->executeSql("ALTER SEQUENCE " . $sequenceName . " RESTART WITH " . $endValue);
         }
-        
+
         for ($i = 0; $i < $howMuchValues; $i++) {
             if ($restartSequence) {
                 $values[] = $startValue + $i;
